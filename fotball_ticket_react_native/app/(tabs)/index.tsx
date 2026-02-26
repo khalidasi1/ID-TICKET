@@ -18,39 +18,13 @@ import Ticket from "@/components/ticket";
 import Match from "@/components/match";
 
 import { useState } from "react";
-// ... existing imports
+import { useCart } from "@/contexts/CartContext";
 
 export default function HomeScreen() {
   const [selectedCategory, setSelectedCategory] = useState("الكل");
+  const { matches } = useCart();
 
   const categories = ["الكل", "دوري روشن", "كأس الملك", "دوري أبطال آسيا", "كأس السوبر"];
-
-  const tickets = [
-    {
-      image: require("@/assets/images/tickets/ticket1.png"),
-      title: "الهلال و النصر",
-      sellerName: "خالد",
-      sellerImage: require("@/assets/images/khalid.jpg"),
-      price: 75,
-      date: "26 Mar"
-    },
-    {
-      image: require("@/assets/images/tickets/ticket2.png"),
-      title: "الاتحاد و الأهلي ",
-      sellerName: "خالد",
-      sellerImage: require("@/assets/images/khalid.jpg"),
-      price: 100,
-      date: "27 Mar"
-    },
-    {
-      image: require("@/assets/images/tickets/ticket3.png"),
-      title: "الرائيد و الاتحاد ",
-      sellerName: "خالد",
-      sellerImage: require("@/assets/images/khalid.jpg"),
-      price: 68,
-      date: "28 Mar"
-    },
-  ];
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#000' }}>
@@ -99,20 +73,21 @@ export default function HomeScreen() {
         </View>
         <View style={styles.ticketsScrollParent}>
           <FlatList
-            data={tickets}
+            data={matches}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.ticketsScrollContainer}
-            keyExtractor={(_, i) => i.toString()}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <Ticket
                 image={item.image}
-                title={item.title}
+                title={`${item.homeTeam} و ${item.awayTeam}`}
                 sellerImage={item.sellerImage}
                 sellerName={item.sellerName}
                 price={item.price}
                 link={"../book"}
-                date={item.date}
+                date={item.date.split(" ").slice(0, 2).join(" ")}
+                matchId={item.id}
               />
             )}
           />

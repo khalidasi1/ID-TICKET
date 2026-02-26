@@ -1,39 +1,43 @@
 import { Link } from "expo-router";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
 
-export default function Banner(){
-    return (
-        <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={styles.headerContainer}
-                >
-                  <View style={styles.headerItem}>
-                    <Link href={"/(tabs)/sell"}>
-                      <Image style={styles.headerImage} source={require("@/assets/images/header/header1.png")} />
-                    </Link>
-                  </View>
-                  <View style={styles.headerItem}>
-                    <Link href={"/(tabs)/sell"}>
-                      <Image style={styles.headerImage} source={require("@/assets/images/header/header2.png")} />
-                    </Link>
-                  </View>
-                </ScrollView>
-    )
+const { width } = Dimensions.get("window");
+
+export default function Banner() {
+  return (
+    <View style={styles.container}>
+      <Link href={"/(tabs)/sell"} asChild>
+        <TouchableOpacity activeOpacity={0.9} style={styles.bannerWrapper}>
+          <Image
+            style={styles.image}
+            source={require("@/assets/images/header/premium_banner.png")}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
+      </Link>
+    </View>
+  );
 }
 
-
 const styles = StyleSheet.create({
-    headerContainer: {
-        flexDirection: 'row-reverse',
-        paddingVertical: 20,
-      },
-      headerItem: {
-        width: 330,
-        height: 129,
-        paddingLeft: 10
-      },
-      headerImage: {
-        borderRadius: 10
-      }
-})
+  container: {
+    marginVertical: 15,
+    alignItems: "center",
+  },
+  bannerWrapper: {
+    width: width - 40,
+    height: 180,
+    borderRadius: 20,
+    overflow: "hidden",
+    backgroundColor: "#1c1c1e",
+    shadowColor: "#0057FF",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 10,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+  },
+});

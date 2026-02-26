@@ -10,55 +10,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Ticket from "@/components/ticket";
+import { useCart } from "@/contexts/CartContext";
 
 export default function ExploreScreen() {
   const router = useRouter();
   const screenWidth = Dimensions.get('window').width;
   const itemWidth = (screenWidth - 40) / 2 - 10; // Calculate width for 2 columns
 
-  // Mock data
-  const tickets = [
-    {
-      image: require("@/assets/images/tickets/ticket1.png"),
-      title: "الهلال و النصر",
-      sellerName: "خالد",
-      sellerImage: require("@/assets/images/khalid.jpg"),
-      price: 75,
-      date: "26 Mar"
-    },
-    {
-      image: require("@/assets/images/tickets/ticket2.png"),
-      title: "الاتحاد و الأهلي ",
-      sellerName: "خالد",
-      sellerImage: require("@/assets/images/khalid.jpg"),
-      price: 100,
-      date: "27 Mar"
-    },
-    {
-      image: require("@/assets/images/tickets/ticket3.png"),
-      title: "الرائيد و الاتحاد ",
-      sellerName: "خالد",
-      sellerImage: require("@/assets/images/khalid.jpg"),
-      price: 68,
-      date: "28 Mar"
-    },
-    {
-      image: require("@/assets/images/tickets/ticket1.png"),
-      title: "الأهلي و النصر",
-      sellerName: "خالد",
-      sellerImage: require("@/assets/images/khalid.jpg"),
-      price: 85,
-      date: "01 Jun"
-    },
-    {
-      image: require("@/assets/images/tickets/ticket2.png"),
-      title: "الاتحاد و الهلال",
-      sellerName: "خالد",
-      sellerImage: require("@/assets/images/khalid.jpg"),
-      price: 95,
-      date: "10 Jun"
-    },
-  ];
+  const { matches } = useCart();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#000' }}>
@@ -74,20 +33,21 @@ export default function ExploreScreen() {
 
         {/* Grid List */}
         <FlatList
-          data={tickets}
+          data={matches}
           numColumns={2}
           contentContainerStyle={styles.listContent}
-          keyExtractor={(_, i) => i.toString()}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Ticket
               image={item.image}
-              title={item.title}
+              title={`${item.homeTeam} و ${item.awayTeam}`}
               sellerImage={item.sellerImage}
               sellerName={item.sellerName}
               price={item.price}
               link={"../book"}
-              date={item.date}
+              date={item.date.split(" ").slice(0, 2).join(" ")}
               itemWidth={itemWidth}
+              matchId={item.id}
             />
           )}
         />
