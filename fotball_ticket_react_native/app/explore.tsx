@@ -15,7 +15,7 @@ import { useCart } from "@/contexts/CartContext";
 export default function ExploreScreen() {
   const router = useRouter();
   const screenWidth = Dimensions.get('window').width;
-  const itemWidth = (screenWidth - 40) / 2 - 10; // Calculate width for 2 columns
+  const itemWidth = (screenWidth - 40) / 2 - 15; // Calculate width for 2 columns with spacing
 
   const { matches } = useCart();
 
@@ -36,6 +36,7 @@ export default function ExploreScreen() {
           data={matches}
           numColumns={2}
           contentContainerStyle={styles.listContent}
+          columnWrapperStyle={styles.columnWrapper}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Ticket
@@ -77,7 +78,11 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   listContent: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingBottom: 20,
+  },
+  columnWrapper: {
+    justifyContent: "space-between",
+    marginBottom: 5,
   },
 });

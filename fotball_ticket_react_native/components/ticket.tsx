@@ -2,13 +2,13 @@ import { Link, RelativePathString, useRouter } from "expo-router";
 import {
   Image,
   ImageSourcePropType,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 type Props = {
   image: ImageSourcePropType | undefined;
@@ -21,6 +21,7 @@ type Props = {
   ticketId?: string;
   matchId?: string;
   date?: string;
+  horizontal?: boolean;
 };
 
 export default function Ticket({
@@ -33,7 +34,8 @@ export default function Ticket({
   link,
   ticketId,
   matchId,
-  date
+  date,
+  horizontal
 }: Props) {
   const navigate = useRouter();
 
@@ -55,22 +57,36 @@ export default function Ticket({
 
   return (
     <TouchableOpacity
+      activeOpacity={0.8}
       onPress={handlePress}
-      style={[styles.ticket, { width: itemWidth ? itemWidth : 200 }]}
+      style={[
+        styles.ticket,
+        horizontal && styles.ticketHorizontal,
+        { width: horizontal ? '100%' : (itemWidth || 220) }
+      ]}
     >
-      <View>
+      <View style={[styles.imageContainer, horizontal && styles.imageContainerHorizontal]}>
         <Image style={styles.ticketImage} source={image} />
         {date && (
           <View style={styles.dateBadge}>
+            <Ionicons name="calendar-outline" size={12} color="#fff" style={styles.dateIcon} />
             <Text style={styles.dateText}>{date}</Text>
           </View>
         )}
       </View>
-      <View style={styles.ticketInfo}>
-        <Text style={styles.ticketTitle} numberOfLines={1}> {title} </Text>
-        <View style={styles.ticketSeller}>
-          <Text style={styles.sellerName}> {sellerName} </Text>
-          <Image style={styles.sellerImage} source={sellerImage} />
+
+      <View style={[styles.ticketInfo, horizontal && styles.ticketInfoHorizontal]}>
+        <Text style={styles.ticketTitle} numberOfLines={2}>{title}</Text>
+
+        <View style={styles.bottomSection}>
+          <View style={styles.sellerContainer}>
+            <Image style={styles.sellerImage} source={sellerImage} />
+            <Text style={styles.sellerName} numberOfLines={1}>{sellerName}</Text>
+          </View>
+
+          <View style={styles.priceContainer}>
+            <Text style={styles.priceText}>{price} <Text style={styles.currency}>ر.س</Text></Text>
+          </View>
         </View>
       </View>
     </TouchableOpacity>
@@ -79,81 +95,117 @@ export default function Ticket({
 
 const styles = StyleSheet.create({
   ticket: {
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    backgroundColor: "#1C1C1E", // Dark card background
+    backgroundColor: "#1C1C1E",
     borderRadius: 20,
-    padding: 10,
-    marginLeft: 15,
     marginVertical: 10,
-    // Shadows
+    overflow: "hidden",
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
     shadowRadius: 10,
-    elevation: 5,
+    elevation: 8,
+    borderWidth: 1,
+    borderColor: "#2C2C2E",
+  },
+  ticketHorizontal: {
+    flexDirection: 'row-reverse',
+    marginLeft: 0,
+    width: '100%',
+    height: 120,
+  },
+  imageContainer: {
+    width: "100%",
+    height: 120,
+    position: "relative",
+    backgroundColor: "#2C2C2E",
+  },
+  imageContainerHorizontal: {
+    width: 120,
+    height: "100%",
   },
   ticketImage: {
     width: "100%",
-    height: 130,
-    borderRadius: 14,
+    height: "100%",
     resizeMode: "cover",
   },
+  dateBadge: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    left: 'auto',
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backdropFilter: 'blur(10px)',
+  },
+  dateIcon: {
+    marginRight: 4,
+  },
+  dateText: {
+    color: '#FFF',
+    fontSize: 11,
+    fontWeight: '600',
+  },
   ticketInfo: {
-    alignItems: "flex-end",
+    padding: 15,
+    paddingTop: 12,
+  },
+  ticketInfoHorizontal: {
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 15,
   },
   ticketTitle: {
-    paddingTop: 12,
     fontWeight: "700",
-    fontSize: 16,
+    fontSize: 15,
     textAlign: 'right',
-    color: '#FFFFFF', // White text
+    color: '#FFFFFF',
+    marginBottom: 8,
   },
-  ticketSeller: {
-    flexDirection: "row",
+  bottomSection: {
+    flexDirection: "row-reverse",
     alignItems: "center",
-    paddingVertical: 8,
+    justifyContent: "space-between",
+    borderTopWidth: 1,
+    borderTopColor: "#3A3A3C",
+    paddingTop: 12,
+  },
+  sellerContainer: {
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    flex: 1,
   },
   sellerImage: {
     width: 24,
     height: 24,
     borderRadius: 12,
+    marginLeft: 8,
+    borderWidth: 1,
+    borderColor: "#3A3A3C",
   },
   sellerName: {
     color: "#9095A6",
     fontSize: 12,
-    marginRight: 6,
+    fontWeight: "500",
+    flexShrink: 1,
   },
   priceContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingTop: 15,
-  },
-  price: {
-    fontSize: 18,
-    color: "#30D158", // Brighter green for dark mode
-  },
-  dateBadge: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "rgba(48, 209, 88, 0.15)",
     paddingHorizontal: 10,
     paddingVertical: 5,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
+    borderRadius: 10,
   },
-  dateText: {
-    color: '#000000',
+  priceText: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: "#30D158",
+  },
+  currency: {
     fontSize: 10,
-    fontWeight: '700',
+    fontWeight: "600",
   },
 });

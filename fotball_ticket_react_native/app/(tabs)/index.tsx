@@ -8,6 +8,8 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Text,
+  Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -23,6 +25,8 @@ import { useCart } from "@/contexts/CartContext";
 export default function HomeScreen() {
   const [selectedCategory, setSelectedCategory] = useState("الكل");
   const { matches } = useCart();
+  const screenWidth = Dimensions.get('window').width;
+  const itemWidth = (screenWidth - 40) / 2 - 10;
 
   const categories = ["الكل", "دوري روشن", "كأس الملك", "دوري أبطال آسيا", "كأس السوبر"];
 
@@ -67,16 +71,21 @@ export default function HomeScreen() {
         <Banner />
         {/* tickets */}
         <View style={styles.titleContainer}>
-          <Link href={"/explore"}> اظهار الكل </Link>
+          <Link href={"/explore"} asChild>
+            <TouchableOpacity style={styles.showAllButton}>
+              <Text style={styles.showAllText}>اظهار الكل</Text>
+            </TouchableOpacity>
+          </Link>
           <Text style={styles.ticketsContainerTitle}> تذاكر المستخدمين </Text>
 
         </View>
         <View style={styles.ticketsScrollParent}>
           <FlatList
-            data={matches}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.ticketsScrollContainer}
+            data={matches.slice(0, 2)}
+            numColumns={2}
+            scrollEnabled={false}
+            contentContainerStyle={styles.ticketsGridContainer}
+            columnWrapperStyle={styles.columnWrapper}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <Ticket
@@ -88,6 +97,7 @@ export default function HomeScreen() {
                 link={"../book"}
                 date={item.date.split(" ").slice(0, 2).join(" ")}
                 matchId={item.id}
+                itemWidth={itemWidth}
               />
             )}
           />
@@ -95,7 +105,11 @@ export default function HomeScreen() {
 
         {/* match */}
         <View style={styles.matchInfo}>
-          <Link href={"/"}> اظهار الكل </Link>
+          <Link href={"/"} asChild>
+            <TouchableOpacity style={styles.showAllButton}>
+              <Text style={styles.showAllText}>اظهار الكل</Text>
+            </TouchableOpacity>
+          </Link>
           <Text style={styles.matchTitle}> مباريات قادمة </Text>
         </View>
         <Match />
@@ -144,6 +158,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 15,
   },
+  showAllButton: {
+    backgroundColor: '#1C1C1E',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#3A3A3C',
+  },
+  showAllText: {
+    color: '#0057FF',
+    fontSize: 12,
+    fontWeight: '600',
+  },
   ticketsContainerTitle: {
     fontWeight: "bold",
     fontSize: 20,
@@ -152,8 +179,12 @@ const styles = StyleSheet.create({
   ticketsScrollParent: {
     marginBottom: 25,
   },
-  ticketsScrollContainer: {
-    paddingRight: 5,
+  ticketsGridContainer: {
+    paddingHorizontal: 0,
+    gap: 15,
+  },
+  columnWrapper: {
+    justifyContent: "space-between",
   },
   matchInfo: {
     flexDirection: "row",
