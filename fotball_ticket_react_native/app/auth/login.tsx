@@ -59,7 +59,7 @@ export default function NafathLogin() {
           <View style={styles.header}>
             <Text style={styles.logoText}>نفاذ</Text>
             <Text style={styles.subtitle}>النفاذ الوطني الموحد</Text>
-            <Text style={styles.welcomeText}>مرحبا بك عميل TICKET ID</Text>
+            <Text style={styles.welcomeText}>مرحبا بك عميل SmartTicket</Text>
           </View>
 
           {/* Confirmation Card */}
@@ -84,7 +84,7 @@ export default function NafathLogin() {
                 <Text style={styles.arrowText}>⇄</Text>
 
                 <View style={styles.transferItem}>
-                  <Text style={styles.transferText}>TICKET ID</Text>
+                  <Text style={styles.transferText}>SmartTicket</Text>
                 </View>
               </View>
 
@@ -140,7 +140,7 @@ export default function NafathLogin() {
         <View style={styles.header}>
           <Text style={styles.logoText}>نفاذ</Text>
           <Text style={styles.subtitle}>النفاذ الوطني الموحد</Text>
-          <Text style={styles.welcomeText}>مرحبا بك عميل TICKET ID</Text>
+          <Text style={styles.welcomeText}>مرحبا بك عميل SmartTicket</Text>
         </View>
 
         {/* Login Card */}

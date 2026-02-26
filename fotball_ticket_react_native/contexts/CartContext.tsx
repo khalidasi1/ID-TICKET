@@ -143,7 +143,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
       try {
         if (!SQLite) return; // Paranoia check
-        const database = await SQLite.openDatabaseAsync('tickit.db');
+        const database = await SQLite.openDatabaseAsync('smartticket.db');
         setDb(database);
 
         await database.execAsync(`

@@ -104,12 +104,7 @@ export default function HomeScreen() {
         </View>
 
         {/* match */}
-        <View style={styles.matchInfo}>
-          <Link href={"/"} asChild>
-            <TouchableOpacity style={styles.showAllButton}>
-              <Text style={styles.showAllText}>اظهار الكل</Text>
-            </TouchableOpacity>
-          </Link>
+        <View style={[styles.matchInfo, { justifyContent: 'flex-end' }]}>
           <Text style={styles.matchTitle}> مباريات قادمة </Text>
         </View>
         <Match />

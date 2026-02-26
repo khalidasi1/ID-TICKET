@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "football_ticket",
-    "slug": "football_ticket",
+    "name": "SmartTicket",
+    "slug": "SmartTicket",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

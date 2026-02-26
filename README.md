@@ -1,4 +1,4 @@
-# Saudi Football Ticket Booking System 🎫⚽ (نظام حجز تذاكر مباريات)
+# SmartTicket 🎫⚽ (نظام حجز تذاكر مباريات)
 
 A modern, full-stack mobile application for booking football match tickets in Saudi Arabia. Built with **React Native (Expo)** and **FastAPI**, featuring a premium Dark Theme UI, seat selection, and secure booking logic.
 
